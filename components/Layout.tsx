@@ -20,8 +20,9 @@ const Layout: FC<LayoutProps> = ({ children }) => {
             className='w-28 object-contain'
           />
         </Link>
-        <Link href={'/createPost'}
-          className='font-medium bg-[#6469ff] text-white px-4 py-2 rounded-md'
+        <Link
+          href={'/createPost'}
+          className='font-medium bg-indigo-500 text-white px-4 py-2 rounded-md'
         >
           Create
         </Link>
