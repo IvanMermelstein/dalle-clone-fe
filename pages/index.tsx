@@ -1,12 +1,37 @@
 import CardList from '@/components/CardList';
 import FormField from '@/components/FormField';
 import Loader from '@/components/Loader';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const Home = () => {
   const [loading, setLoading] = useState(false);
   const [allPosts, setAllPosts] = useState(null);
   const [searchText, setSearchText] = useState('');
+
+  useEffect(() => {
+    const fetchPosts = async () => {
+      setLoading(true);
+
+      try {
+        const response = await fetch(process.env.NEXT_PUBLIC_API_BASE_URL + 'post', {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        });
+        if (response.ok) {
+          const result = await response.json();
+          setAllPosts(result.data.reverse());
+        }
+      } catch (error) {
+        alert(error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchPosts();
+  }, []);
 
   return (
     <section className='max-w-7xl mx-auto'>
@@ -32,7 +57,7 @@ const Home = () => {
               }
               <div className='grid lg:grid-cols-4 sm:grid-cols-3 xs:grid-cols-2 grid-cols-1 gap-3'>
                 <CardList
-                  data={searchText ? [] : []}
+                  data={searchText ? [] : allPosts}
                   title={searchText ? 'No search results found' : 'No posts found'}
                 />
               </div>
