@@ -26,7 +26,7 @@ const FormField: FC<FormFieldProps> = ({ labelName, type, name, placeholder, val
           isSurpriseMe && (
             <button
               type='button'
-              onClick={() => handleSurpriseMe}
+              onClick={handleSurpriseMe}
               className='font-semibold text-xs bg-gray-100 py-1 px-2 rounded-[5px] text-black'
               disabled={disabled}
             >
