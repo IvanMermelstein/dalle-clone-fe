@@ -9,10 +9,10 @@ interface FormFieldProps {
   handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   isSurpriseMe?: boolean;
   handleSurpriseMe?: () => void;
-  disabled: boolean
+  disabled?: boolean
 }
 
-const FormField: FC<FormFieldProps> = ({ labelName, type, name, placeholder, value, handleChange, isSurpriseMe = false, handleSurpriseMe, disabled }) => {
+const FormField: FC<FormFieldProps> = ({ labelName, type, name, placeholder, value, handleChange, isSurpriseMe = false, handleSurpriseMe, disabled = false }) => {
   return (
     <div>
       <div className='flex items-center gap-2 mb-2'>

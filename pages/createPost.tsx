@@ -1,7 +1,7 @@
 import FormField from '@/components/FormField';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
-import getRandomPrompt from '../utils/index';
+import { getRandomPrompt } from '../utils/index';
 import { preview } from '@/public/assets';
 import Image from 'next/image';
 import Loader from '@/components/Loader';
