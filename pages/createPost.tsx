@@ -1,6 +1,6 @@
 import FormField from '@/components/FormField';
 import { useRouter } from 'next/router';
-import React, { ChangeEvent, useState } from 'react';
+import React, { useState } from 'react';
 import getRandomPrompt from '../utils/index';
 import { preview } from '@/public/assets';
 import Image from 'next/image';
@@ -29,8 +29,30 @@ const CreatePost = () => {
     setForm({ ...form, prompt: randomPrompt });
   };
 
-  const generateImage = () => {
-    return null;
+  const generateImage = async () => {
+    if (form.prompt) {
+      try {
+        setGeneratingImg(true);
+        const response = await fetch(process.env.NEXT_PUBLIC_API_BASE_URL + 'dalle', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ prompt: form.prompt })
+        });
+
+        const data = await response.json();
+
+        setForm({ ...form, photo: `data:image/jpeg;base64,${data.photo}` });
+      } catch (error) {
+        console.log(error);
+      }
+      finally {
+        setGeneratingImg(false);
+      }
+    } else {
+      alert('Please enter a prompt');
+    }
   };
 
   return (
@@ -49,8 +71,8 @@ const CreatePost = () => {
         />
         <FormField
           labelName='Prompt'
-          type='prompt'
-          name='name'
+          type='text'
+          name='prompt'
           placeholder={getRandomPrompt('')}
           value={form.prompt}
           handleChange={handleChange}
@@ -59,8 +81,11 @@ const CreatePost = () => {
         />
         <div className='relative bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 w-64 p-3 h-64 flex justify-center items-center'>
           <Image
+            unoptimized
             src={form?.photo ? form.photo : preview}
             alt={form?.photo ? form.prompt : 'preview'}
+            width={50}
+            height={50}
             className={form?.photo ? 'w-full h-full object-contain' : 'w-9/12 h-9/12 object-contain opacity-40'}
           />
           {
